@@ -1,26 +1,26 @@
-public class MaxFinder<T extends Comparable<T>> {
-    private T var1;
-    private T var2;
-    private T var3;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-    public MaxFinder(T var1, T var2, T var3) {
-        this.var1 = var1;
-        this.var2 = var2;
-        this.var3 = var3;
+public class MaxFinder<T extends Comparable<T>> {
+    private List<T> values;
+
+    public MaxFinder(T... values) {
+        this.values = Arrays.asList(values);
     }
 
     public T testMaximum() {
-        return findMax(var1, var2, var3);
+        return findMax(values);
     }
 
-    public static <U extends Comparable<U>> U findMax(U a, U b, U c) {
-        if (a.compareTo(b) >= 0 && a.compareTo(c) >= 0) {
-            return a;
-        } else if (b.compareTo(a) >= 0 && b.compareTo(c) >= 0) {
-            return b;
-        } else {
-            return c;
-        }
+    public static <U extends Comparable<U>> U findMax(U... values) {
+        List<U> valueList = Arrays.asList(values);
+
+        Optional<U> max = valueList.stream()
+                .max(Comparable::compareTo);
+
+        return max.orElse(null);
     }
 
     public static void main(String[] args) {
@@ -35,5 +35,9 @@ public class MaxFinder<T extends Comparable<T>> {
         // Test Case 3: Max String at 3rd position
         MaxFinder<String> maxFinder3 = new MaxFinder<>("Cherry", "Blueberry", "Strawberry");
         System.out.println("Test Case 3: Max String at 3rd position - Max String: " + maxFinder3.testMaximum());
+
+        // Test Case 4: Max Number with more than three parameters
+        MaxFinder<Double> maxFinder4 = new MaxFinder<>(3.5, 6.2, 8.9, 2.1, 5.7);
+        System.out.println("Test Case 4: Max Number with more than three parameters - Max Number: " + maxFinder4.testMaximum());
     }
 }
