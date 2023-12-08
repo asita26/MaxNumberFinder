@@ -1,12 +1,10 @@
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 public class MaxFinder<T extends Comparable<T>> {
-    private List<T> values;
+    private T[] values;
 
     public MaxFinder(T... values) {
-        this.values = Arrays.asList(values);
+        this.values = values;
     }
 
     public T testMaximum() {
@@ -16,12 +14,19 @@ public class MaxFinder<T extends Comparable<T>> {
     }
 
     public static <U extends Comparable<U>> U findMax(U... values) {
-        List<U> valueList = Arrays.asList(values);
+        if (values.length == 0) {
+            return null;
+        }
 
-        Optional<U> max = valueList.stream()
-                .max(Comparable::compareTo);
+        U max = values[0];
 
-        return max.orElse(null);
+        for (U value : values) {
+            if (value.compareTo(max) > 0) {
+                max = value;
+            }
+        }
+
+        return max;
     }
 
     public static <V> void printMax(V max) {
